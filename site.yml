@@ -1,6 +1,8 @@
 ---
 - name: Common tasks.
   import_playbook: common.yml
+- name: Install Vagrant/VirtualBox Environment.
+  import_playbook: vagrant.yml
 - name: Install Slurm Cluster.
   import_playbook: slurm_cluster.yml
 - name: Install NFS Server.
