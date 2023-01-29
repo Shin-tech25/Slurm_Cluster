@@ -16,3 +16,4 @@ roles:
   - name: jtyr.sssd
   - name: undergreen.prometheus-node-exporter
     version: v1.5.1
+  - name: mrlesmithjr.prometheus-node-exporter
