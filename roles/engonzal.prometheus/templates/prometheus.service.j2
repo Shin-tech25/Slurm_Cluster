@@ -1,0 +1,29 @@
+[Unit]
+Description="Prometheus"
+Documentation=https://prometheus.io/docs/introduction/overview/
+After=network-online.target
+
+
+[Service]
+RestartSec=2s
+User={{ prom_user }}
+Group={{ prom_group }}
+Type=simple
+
+Environment="GOMAXPROCS=2"
+WorkingDirectory={{ prom_dir_main }}
+ExecReload=/bin/kill -HUP $MAINPID
+
+ExecStart={{ prom_dir_main }}/bin/prometheus-{{ prom_version }}.linux-amd64/prometheus \
+--storage.tsdb.path {{ prom_dir_data }} \
+--config.file {{ prom_dir_config }}/prometheus.yml \
+--web.console.templates={{ prom_dir_config }}/consoles \
+--web.console.libraries={{ prom_dir_config }}/console_libraries \
+--web.listen-address=0.0.0.0:9090 \
+--web.external-url={{ prom_web_uri }}
+
+SyslogIdentifier=prometheus
+Restart=always
+
+[Install]
+WantedBy=default.target

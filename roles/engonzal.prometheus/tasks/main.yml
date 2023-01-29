@@ -1,0 +1,59 @@
+---
+- name: Create prometheus group
+  group:
+    name: prometheus
+    state: present
+
+- name: Create prometheus user
+  user:
+    name: prometheus
+    comment: prometheus service user
+    group: prometheus
+    state: present
+
+- name: Create Prom dirs
+  file:
+    path: "{{ item }}"
+    owner: "{{ prom_user }}"
+    group: "{{ prom_user }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ prom_dir_base }}"
+    - "{{ prom_dir_main }}"
+    - "{{ prom_dir_config }}"
+    - "{{ prom_dir_data }}"
+    - "{{ prom_dir_bin }}"
+
+- name: Download and unarchive prometheus bins
+  unarchive:
+    src: "{{ prom_download_url }}"
+    dest: "{{ prom_dir_bin }}"
+    remote_src: yes
+    mode: "0755"
+    creates: "{{ prom_dir_bin }}/prometheus-{{ prom_version }}.linux-amd64"
+
+- name: Add Prometheus config
+  template:
+    src: prometheus.yml.j2
+    dest: "{{ prom_dir_config }}/prometheus.yml"
+    mode: "0755"
+  notify: restart prometheus
+
+- name: Copy systemd service
+  template:
+    src: prometheus.service.j2
+    owner: "{{ prom_user }}"
+    group: "{{ prom_user }}"
+    dest: "/etc/systemd/system/{{ prom_service }}"
+  notify:
+    - systemd daemon-reload
+    - restart prometheus
+
+- name: Run handlers
+  meta: flush_handlers
+
+- name: Enable prometheus service
+  systemd:
+    name: "{{ prom_service }}"
+    enabled: yes

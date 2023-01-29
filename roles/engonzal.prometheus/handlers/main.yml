@@ -1,0 +1,9 @@
+---
+- name: systemd daemon-reload
+  systemd:
+    daemon_reload: yes
+
+- name: restart prometheus
+  systemd:
+    name: "{{ prom_service }}"
+    state: reloaded

@@ -1,0 +1,18 @@
+---
+prom_version: "2.12.0"
+prom_download_url: "https://github.com/prometheus/prometheus/releases/download/v{{ prom_version }}/prometheus-{{ prom_version }}.linux-amd64.tar.gz"
+
+prom_user: "prometheus"
+prom_group: "{{ prom_user }}"
+
+prom_groups: "{{ groups }}"
+
+prom_dir_base: "/app"
+prom_dir_main: "{{ prom_dir_base }}/prometheus"
+prom_dir_config: "{{ prom_dir_main }}/config"
+prom_dir_data: "{{ prom_dir_main }}/data"
+prom_dir_bin: "{{ prom_dir_main }}/bin"
+
+# admin
+prom_service: "prometheus.service"
+prom_web_uri: "http://{{ ansible_fqdn }}:9090"
