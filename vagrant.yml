@@ -1,0 +1,31 @@
+---
+- name: Create virtual-machine environment.
+  hosts: all
+  become: yes
+  vars: 
+    - virtualbox: https://download.virtualbox.org/virtualbox/6.1.42/VirtualBox-6.1-6.1.42_155177_fedora36-1.x86_64.rpm
+  tasks:
+    - name: Get Installer.
+      get_url:
+        url: 'https://download.virtualbox.org/virtualbox/6.1.42/VirtualBox-6.1.42-155177-Linux_amd64.run'
+        dest: /tmp
+    
+    - name: Install VirtualBox.
+      shell: |
+        chmod +x /tmp/VirtualBox-6.1.42-155177-Linux_amd64.run
+        cd /tmp && ./VirtualBox-6.1.42-155177-Linux_amd64.run
+      register: result
+
+    - name: Debug Task [Install VirtualBox.]
+      debug:
+        var: result
+
+    - name: Download & Install Vagrant.
+      shell: |
+        sudo yum install -y yum-utils
+        sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+        sudo yum -y install vagrant
+      register: result
+    - name: Debug Task [Download & Install Vagrant.]
+      debug:
+        var: result
