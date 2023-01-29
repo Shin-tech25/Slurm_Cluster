@@ -1,0 +1,22 @@
+---
+prometheus_shell: /usr/bin/nologin
+prometheus_capabilites_packages:
+ - which
+prometheus_gnu_time_packages:
+ - time
+prometheus_go_compile_tools:
+ - curl
+ - gcc
+ - git
+ - glibc-static
+ - gzip
+ - make
+prometheus_java_packages:
+ - java-1.8.0-openjdk-headless
+prometheus_prerequisite_packages:
+ - tar
+ - unzip
+ - which
+prometheus_testing_packages:
+ - cronie
+ - net-tools

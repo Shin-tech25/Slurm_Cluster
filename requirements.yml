@@ -17,3 +17,5 @@ roles:
   - name: undergreen.prometheus-node-exporter
     version: v1.5.1
   - name: mrlesmithjr.prometheus-node-exporter
+  - name: mesaguy.prometheus
+    version: v0.12.44

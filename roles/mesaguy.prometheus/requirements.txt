@@ -1,0 +1,2 @@
+ansible-lint == v4.3.5
+yamllint == v1.25.0
