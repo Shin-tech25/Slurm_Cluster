@@ -1,0 +1,41 @@
+- name: =LDAP-ENTRY= Add a test group user05 on LDAP.
+  community.general.ldap_entry:
+    dn: cn=user05,ou=Group,dc=prometech,dc=co,dc=jp
+    bind_dn: "{{ BIND_DN }}"
+    bind_pw: "{{ slapd.root_password }}"
+    server_uri: ldaps://localhost/
+    state: present
+    objectClass: 
+      - top
+      - posixGroup
+      - groupofUniqueNames
+    attributes:
+      gidNumber: 1034
+      description: Test User user04.
+      cn: user05
+
+- name: =LDAP-ENTRY= Add a test user user05 on LDAP.
+  community.general.ldap_entry:
+    dn: cn=user05,ou=People,dc=prometech,dc=co,dc=jp
+    bind_dn: "{{ BIND_DN }}"
+    bind_pw: "{{ slapd.root_password }}"
+    server_uri: ldaps://localhost/
+    state: present
+    objectClass:
+      - top
+      - account
+      - posixAccount
+      - inetOrgPerson
+      - person
+      - inetUser
+      - organizationalPerson
+    attributes:
+      uidNumber: 1034
+      gidNumber: 1034
+      description: Test User user05.
+      uid: user05
+      cn: user05
+      sn: user05
+      homeDirectory: /home/user05
+      loginShell: /bin/bash
+      userPassword: '{SSHA}C2X6r19XDuGbtMW+xmBjK5QyxUA/kEQE'  # This hash pw is generated at https://projects.marsching.org/weave4j/util/genpassword.php

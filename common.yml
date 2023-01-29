@@ -1,0 +1,15 @@
+---
+- name: Play common tasks.
+  hosts: all
+  become: yes
+  vars_files: 
+    - hosts.yml
+  roles:
+    - role: packages
+      tags: packages
+      vars:
+        packages:
+          - git
+          - openldap-clients
+    - role: bertvv.hosts
+      tags: bertvv.hosts

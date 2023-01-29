@@ -1,0 +1,23 @@
+dn: cn=kase,ou=Group,dc=prometech,dc=co,dc=jp
+objectClass: posixGroup
+objectClass: top
+objectClass: groupofUniqueNames
+gidNumber: 1010
+cn: kase
+
+dn: uid=kase,ou=People,dc=prometech,dc=co,dc=jp
+uid: kase
+objectClass: top
+objectClass: account
+objectClass: posixAccount
+objectClass: inetOrgPerson
+objectClass: person
+objectClass: inetUser
+objectClass: organizationalPerson
+uidNumber: 1010
+gidNumber: 1010
+sn: kase
+homeDirectory: /home/kase
+loginShell: /bin/bash
+cn: kase
+

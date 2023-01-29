@@ -1,0 +1,15 @@
+---
+- name: Common tasks.
+  import_playbook: common.yml
+- name: Install Slurm Cluster.
+  import_playbook: slurm_cluster.yml
+- name: Install NFS Server.
+  import_playbook: nfs_server.yml
+- name: Install LDAP Server.
+  import_playbook: ldap.yml
+- name: Install NTP Server.
+  import_playbook: ntp.yml
+- name: Install SSSD Server.
+  import_playbook: sssd.yml
+- name: Add LDAP Users/Groups.
+  import_playbook: ldap_entries.yml

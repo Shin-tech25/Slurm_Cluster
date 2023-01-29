@@ -1,0 +1,47 @@
+# roles/389ds/tasks/main.yml
+---
+- name: Install packages.
+  shell: |
+    dnf module enable -y 389-ds
+  changed_when: false
+
+- name: Install 389-ds-base.
+  dnf:
+    name: 389-ds-base
+    state: latest
+
+- name: debug
+  debug:
+    msg: "{{ backend_userroot }}"
+
+- name: debug
+  debug:
+    msg: "{{ backend_userroot.suffix }}"
+
+- name: Create instance.inf from template file.
+  template:
+    src: templates/instance.inf.j2
+    dest: /tmp/instance.inf
+    
+- name: Create Instance from instance.inf file.
+  shell: |
+    dscreate from-file /tmp/instance.inf
+    rm /tmp/instance.inf
+  changed_when: false
+
+- name: Copy ca.crt.
+  copy:
+    remote_src: yes
+    src: /etc/dirsrv/slapd-{{slapd.instance_name}}/ca.crt
+    dest: /etc/openldap/certs/
+
+- name: Copy ldap.conf file.
+  template:
+    src: templates/ldap.conf.j2
+    dest: /etc/openldap/ldap.conf
+
+- name: Start 389 Directory Server.
+  service:
+    name: dirsrv@{{slapd.instance_name}}
+    state: started
+    enabled: yes

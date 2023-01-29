@@ -1,0 +1,23 @@
+- name: =LDAP-ENTRY= Add General Group on LDAP.
+  community.general.ldap_entry:
+    dn: ou=Group,dc=prometech,dc=co,dc=jp
+    bind_dn: "{{ BIND_DN }}"
+    bind_pw: "{{ slapd.root_password }}"
+    server_uri: ldaps://localhost/
+    state: present
+    objectClass: organizationalUnit
+    attributes:
+      description: General Group
+      ou: Group
+
+- name: =LDAP-ENTRY= Add General People on LDAP.
+  community.general.ldap_entry:
+    dn: ou=People,dc=prometech,dc=co,dc=jp
+    bind_dn: "{{ BIND_DN }}"
+    bind_pw: "{{ slapd.root_password }}"
+    server_uri: ldaps://localhost/
+    state: present
+    objectClass: organizationalUnit
+    attributes:
+      description: General People
+      ou: People

@@ -1,0 +1,67 @@
+---
+
+- name: Test distribution
+  assert:
+    that: >
+      ansible_os_family == "RedHat"
+
+- name: Install sssd package for RedHat
+  package:
+    name: "{{ sssd_pkg }}"
+  notify:
+    - Restart sssd
+  tags:
+    - sssd_pkg
+
+- name: authselect select sssd with-mk-homedir --force
+  shell: |
+    authselect select sssd with-mkhomedir --force
+  
+  register: result
+
+- name: debug shell result
+  debug:
+    var: result
+
+- name: Configure sssd service
+  template:
+    src: sssd.conf.j2
+    dest: /etc/sssd/sssd.conf
+    mode: 0600
+    owner: root
+    group: root
+  notify:
+    - Restart sssd
+  tags:
+    - sssd_config
+
+- name: Add sudoers config in /etc/nsswitch.conf
+  lineinfile:
+    path: /etc/nsswitch.conf
+    regexp: '^sudoers:'
+    line: 'sudoers: files sss'
+
+- name: Make sure sssd service is enabled
+  service:
+    name: sssd
+    enabled: yes
+  tags:
+    - sssd_service
+
+- name: Make sure sssd service is running
+  service:
+    name: sssd
+    state: started
+  register: sssd_service_started
+  tags:
+    - sssd_service
+
+- name: test sssctl domain-status default
+  shell: |
+    sssctl domain-status default
+    systemctl status sssd
+  register: result
+
+- name: debug shell result
+  debug:
+    var: result

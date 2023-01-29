@@ -1,0 +1,48 @@
+---
+- name: Make sure we have an admin user
+  hosts: ldapservers
+  become: yes
+  vars_files:
+    - ldap.yml
+  tasks:
+    - name: create aci anyone read template
+      template:
+        src: add_aci_anyone_read.ldif.j2
+        dest: /tmp/add_aci_anyone_read.ldif
+        mode: 0600
+        backup: yes
+        owner: root
+        group: root
+      notify: 
+        - add_aci_anyone_read.ldif
+    - name: create aci user password template
+      template:
+        src: add_aci_user_password.ldif.j2
+        dest: /tmp/add_aci_user_password.ldif
+        mode: 0600
+        backup: yes
+        owner: root
+        group: root
+      notify: 
+        - add_aci_user_password.ldif
+    - name: common
+      import_tasks: ldap_entries/common.yml
+    - name: sssd
+      import_tasks: ldap_entries/sssd.yml
+    - name: user03
+      import_tasks: ldap_entries/user03.yml
+    - name: user04
+      import_tasks: ldap_entries/user04.yml
+    - name: user05
+      import_tasks: ldap_entries/user05.yml  
+
+  handlers:
+    - name: add_aci_anyone_read.ldif
+      shell: |
+        ldapmodify -D "cn=Directory Manager" -w prometech4649 -f /tmp/add_aci_anyone_read.ldif
+      register: result
+
+    - name: add_aci_user_password.ldif
+      shell: |
+        ldapmodify -D "cn=Directory Manager" -w prometech4649 -f /tmp/add_aci_user_password.ldif
+      register: result

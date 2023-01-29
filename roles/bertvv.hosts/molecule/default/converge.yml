@@ -1,0 +1,9 @@
+---
+- name: Converge
+  hosts: instance1
+  become: true
+  gather_facts: true
+  tasks:
+    - name: "Include bertvv.hosts"
+      ansible.builtin.include_role:
+        name: "bertvv.hosts"

@@ -1,0 +1,52 @@
+slurm_config:
+  AccountingStorageType: "accounting_storage/slurmdbd"
+  AccountingStorageHost: mnode.prometech.co.jp
+  AccountingStorageExternalHost: mnode.prometech.co.jp
+  AccountingStoragePort: 6819
+  ClusterName: cluster
+  SlurmctldHost: "mnode.prometech.co.jp"
+  SlurmctldLogFile: "/var/log/slurm/slurmctld.log"
+  SlurmctldPidFile: "/var/run/slurmctld.pid"
+  SlurmdLogFile: "/var/log/slurm/slurmd.log"
+  SlurmdPidFile: "/var/run/slurmd.pid"
+  SlurmdSpoolDir: "/var/spool/slurmd"
+  StateSaveLocation: "/var/spool/slurmctld"
+slurm_create_user: yes
+slurm_user:
+  comment: "Slurm Workload Manager"
+  gid: 888
+  group: slurm
+  home: "/var/lib/slurm"
+  name: slurm
+  shell: "/usr/sbin/nologin"
+  uid: 888
+slurm_partitions:
+  - name: debug
+    Default: YES
+    MaxTime: UNLIMITED
+    Nodes: "cnode01.prometech.co.jp,cnode02.prometech.co.jp"
+slurm_nodes:
+  - name: "cnode01.prometech.co.jp"
+  - name: "cnode02.prometech.co.jp"
+slurmdbd_config:
+  ArchiveEvents: yes
+  ArchiveJobs: yes
+  ArchiveResvs: yes
+  ArchiveSteps: no
+  ArchiveSuspend: no
+  ArchiveTXN: no
+  ArchiveUsage: no
+  AuthType: auth/munge
+  DbdPort: 6819
+  DbdHost: mnode.prometech.co.jp
+  DebugLevel: info
+  PurgeEventAfter: 1month
+  PurgeJobAfter: 12month
+  PurgeStepAfter: 1month
+  PurgeSuspendAfter: 1month
+  PurgeUsageAfter: 24month
+  LogFile: /var/log/slurmdbd.log
+  StorageType: accounting_storage/mysql
+  StorageUser: slurm
+  StoragePass: SLURM
+  StorageLoc: slurm_acct_db

@@ -1,0 +1,22 @@
+Vagrant.configure("2") do |config|
+
+    config.vm.box = "generic/rocky8"
+    config.vm.box_version = "4.2.8"  # Rocky8
+
+    config.vm.define "instance1" do |ins|  # molecule.yml における platforms 要素の name と一致させる
+        ins.vm.hostname = "instance1"
+        ins.vm.network "private_network", ip: "192.168.56.60"
+        ins.vm.provider "virtualbox" do |vb|
+            vb.memory = 2048
+        end
+    end
+
+    config.vm.define "instance2" do |ins|  # molecule.yml における platforms 要素の name と一致させる
+        ins.vm.hostname = "instance2"
+        ins.vm.network "private_network", ip: "192.168.56.61"
+        ins.vm.provider "virtualbox" do |vb|
+            vb.memory = 1024
+        end
+    end
+  
+end

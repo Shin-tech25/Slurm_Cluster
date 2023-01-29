@@ -1,0 +1,19 @@
+---
+- name: Converge
+  hosts: instance1
+  become: true
+  gather_facts: true
+  vars:
+    ntp_timezone: Asia/Tokyo
+    ntp_manage_config: true
+    ntp_area: rhel
+    ntp_restrict:
+      - "127.0.0.1"
+      - "::1"
+      - "191.168.0.0/16"
+    ntp_cron_handler_enabled: true
+    ntp_tinker_panic: true
+  tasks:
+    - name: "Include geerlingguy.ntp"
+      ansible.builtin.include_role:
+        name: "geerlingguy.ntp"

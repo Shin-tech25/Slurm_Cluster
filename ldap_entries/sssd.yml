@@ -1,0 +1,13 @@
+- name: =LDAP-ENTRY= Add a user for sssd client on LDAP.
+  community.general.ldap_entry:
+    dn: cn=sssd,dc=prometech,dc=co,dc=jp
+    bind_dn: "{{ BIND_DN }}"
+    bind_pw: "{{ slapd.root_password }}"
+    server_uri: ldaps://localhost/
+    state: present
+    objectClass: person
+    attributes:
+      description: A user for sssd client.
+      cn: sssd
+      sn: sssd
+      userPassword: '{SSHA}qElpX7cixJmXbeGZuXLDGitGx4GbLc9w'

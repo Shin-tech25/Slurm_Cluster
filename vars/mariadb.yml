@@ -1,0 +1,28 @@
+mariadb_mirror: 'mirror.mariadb.org/yum'
+mariadb_bind_address: '0.0.0.0'
+mariadb_root_password: 'atOrryag&'
+mariadb_server_cnf:
+  general-log:
+  general-log-file: 'queries.log'
+  slow-query-log:
+  slow-query-log-file: 'mariadb-slow.log'
+  long-query-time: '5.0'
+mariadb_custom_cnf:
+  mariadb:
+    autoset_open_files_limit:
+    max-connections: '20'
+  mysqld:
+    language: /usr/share/mysql/japanese
+    innodb_buffer_pool_size: '4096M'
+    innodb_log_file_size: '64M'
+    innodb_lock_wait_timeout: '900'
+mariadb_configure_swappiness: true
+mariadb_swappiness: '10'
+mariadb_databases:
+  - name: slurm_acct_db
+    # init_script: ../molecule/common/init.sql
+mariadb_users:
+  - name: slurm
+    password: 'SLURM'
+    priv: 'slurm_acct_db.*:ALL'
+    host: '%'   # Allow access from all hosts.

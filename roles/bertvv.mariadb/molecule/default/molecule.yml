@@ -1,0 +1,12 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: delegated
+platforms:
+  - name: instance1  # VagrantFile の config.vm.define の値に合わせる
+  # - name: instance2  # VagrantFile の config.vm.define の値に合わせる
+provisioner:
+  name: ansible
+verifier:
+  name: ansible

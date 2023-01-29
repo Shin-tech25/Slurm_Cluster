@@ -1,0 +1,38 @@
+---
+- name: Create
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  no_log: "{{ molecule_no_log }}"
+  tasks:
+    - name: vagrant up                     # vmを作成、起動
+      shell: vagrant up
+
+    - name: vagrant ssh-config             # 作成vmへの接続情報をYAML化
+      shell: >-
+        vagrant ssh-config | sed '/^$/d' | awk '$1 == "Host" {print "- "$1": "$2} $1 != "Host" {print "  "$1": "$2}'
+      register: r
+
+    - name: Populate instance config dict  # 以降で作成vmへの接続情報をmoleculeに連携
+      loop: "{{ r.stdout|from_yaml }}"
+      set_fact:
+        instance_conf_dict:
+          instance: "{{ item.Host }}"
+          address: "{{ item.HostName }}"
+          user: "{{ item.User }}"
+          port: "{{ item.Port }}"
+          identity_file: "{{ item.IdentityFile }}"
+      register: instance_config_dict
+
+    - name: Convert instance config dict to a list
+      set_fact:
+        instance_conf: "{{ instance_config_dict.results | map(attribute='ansible_facts.instance_conf_dict') | list }}"
+
+    - name: Dump instance config
+      copy:
+        content: |
+          # Molecule managed
+
+          {{ instance_conf | to_json | from_json | to_yaml }}
+        dest: "{{ molecule_instance_config }}"
+        mode: 0600

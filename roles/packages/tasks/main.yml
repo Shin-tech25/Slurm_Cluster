@@ -1,0 +1,6 @@
+# roles/packages/tasks/main.yml
+---
+- name: Install Packages
+  yum: 
+    name: "{{ packages }}"
+    state: latest

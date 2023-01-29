@@ -1,0 +1,57 @@
+---
+- name: sssd
+  hosts: all
+  become: true
+  gather_facts: true
+  tasks:
+    - name: "Include jtyr.sssd"
+      ansible.builtin.include_role:
+        name: "jtyr.sssd"
+      vars:
+        sssd_pkg:
+          - sssd
+          - sssd-tools
+          - sssd-ldap
+          - authselect
+          - oddjob-mkhomedir
+        sssd_config:
+          sssd:
+            debug_level: 0
+            config_file_version: 2
+            services: nss, pam, ssh, sudo
+            domains: default
+          'domain/default':
+            debug_level: 9
+
+            id_provider: ldap
+            auth_provider: ldap
+            chpass_provider: ldap
+            sudo_provider: ldap
+
+            ldap_uri: ldaps://mnode.prometech.co.jp/
+            ldap_search_base: dc=prometech,dc=co,dc=jp
+            ldap_id_use_start_tls: false
+
+            ldap_search_timeout: 3
+            ldap_network_timeout: 3
+            ldap_opt_timeout: 3
+            ldap_enumeration_search_timeout: 60
+            ldap_enumeration_refresh_timeout: 300
+            ldap_connection_expire_timeout: 600
+
+            ldap_sudo_smart_refresh_interval: 600
+            ldap_sudo_full_refresh_interval: 10800
+
+            entry_cache_timeout: 1200
+            cache_credentials: True
+
+            ldap_tls_cacertdir: /etc/openldap/certs
+            ldap_tls_cacert: /etc/openldap/certs/ca.crt
+
+            enumerate: True
+
+            access_provider: permit
+          nss:
+            homedir_substring: /home
+            entry_negative_timeout: 20
+            entry_cache_nowait_percentage: 50

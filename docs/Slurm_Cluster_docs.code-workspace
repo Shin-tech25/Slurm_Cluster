@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"markdown-pdf.displayHeaderFooter": false,
+		"markdown-pdf.includeDefaultStyles": false,
+		"markdown-pdf.styles": [
+	  		"./markdown.css"
+		],
+		"markdown-pdf.convertOnSave": true,
+		"markdown-pdf.type": [
+	  		"pdf",
+	  		"html",
+		]
+	}
+}

@@ -1,0 +1,20 @@
+---
+- name: Install NFS Server.
+  hosts: nfsservers
+  become: true
+  roles:
+    - role: geerlingguy.nfs
+      tags: geerlingguy.nfs
+      vars:
+        nfs_exports: [ "/data *(rw,sync,no_root_squash)" ]
+
+- name: Install NFS Clients.
+  hosts: nfsclients
+  become: true
+  roles:
+    - role: ome.nfs_mount
+      tags: ome.nfs_mount
+      vars:
+        nfs_share_mounts:
+        - location: "mnode.prometech.co.jp:/data"
+          path: "/data"   # /homeにマウントすると既存のデータが消えるため注意！！

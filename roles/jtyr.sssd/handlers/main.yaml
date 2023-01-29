@@ -1,0 +1,12 @@
+---
+
+- name: Restart sssd
+  service:
+    name: "{{ item }}"
+    state: restarted
+  loop:
+    - sssd
+    - oddjobd
+  when: >
+    sssd_service_started is not defined or
+    not sssd_service_started.changed

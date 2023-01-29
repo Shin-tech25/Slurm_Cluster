@@ -1,0 +1,17 @@
+---
+
+galaxy_info:
+  author: Jiri Tyr
+  role_name: sssd
+  namespace: jtyr
+  description: Role which helps to install sssd service.
+  license: MIT
+  min_ansible_version: 2.0
+  platforms:
+    - name: EL
+      versions:
+        - all
+  categories:
+    - system
+dependencies:
+  - src: jtyr.config_encoder_filters

@@ -1,0 +1,5 @@
+dn: {{ LDAP_BASE }}
+changetype: modify
+add: aci
+aci: (targetattr=*)(version 3.0; acl "anyone read everything"; allow (read, search, compare)(userdn="ldap:///anyone");)
+

@@ -1,0 +1,8 @@
+dn: cn=sssd,dc=slurmmaster,dc=local
+objectClass: person
+cn: sssd
+sn: sssd
+userPassword: Password
+
+
+

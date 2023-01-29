@@ -1,0 +1,24 @@
+---
+galaxy_info:
+  role_name: mariadb
+  namespace: bertvv
+  author: Bert Van Vreckem
+  description: Manage MariaDB on a RedHat based Linux distribution.
+  license: BSD
+  min_ansible_version: 2.13
+  platforms:
+    - name: EL
+      versions:
+        - 7
+        - 8
+        - 9
+    - name: Fedora
+      versions:
+        - 31
+    - name: Debian
+      versions:
+        - 10
+  galaxy_tags:
+    - database
+    - sql
+dependencies: []

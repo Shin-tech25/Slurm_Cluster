@@ -1,0 +1,61 @@
+---
+- name: Install LDAP Servers.
+  hosts: ldapservers
+  become: yes
+  vars_files:
+    - ldap.yml
+  roles:
+    - role: shin_tech25.ldap_389ds
+      tags: shin_tech25.ldap_389ds
+
+  tasks:
+    - name: Open Port
+      firewalld:
+        zone: public
+        service: ldaps
+        state: enabled
+        permanent: yes
+        immediate: yes
+
+- name: Install LDAP Clients.
+  hosts: all
+  become: yes
+  vars_files:
+    - ldap.yml
+  tasks:
+    - name: Retrieve ldap.conf from LDAP Server.
+      ansible.builtin.slurp:
+        src: "/etc/openldap/ldap.conf"
+      register: _ldap_conf
+      delegate_to: "{{ groups['ldapservers'][0] }}"
+    
+    - name: debug
+      debug:
+        var: _ldap_conf
+
+    - name: Write ldap.conf to every ldap clients.
+      ansible.builtin.copy:
+        content: "{{ _ldap_conf.content | b64decode }}"
+        dest: "/etc/openldap/ldap.conf"
+        owner: root
+        group: root
+        mode: 0600
+
+    - name: Retrieve ca.crt from LDAP Server.
+      ansible.builtin.slurp:
+        src: "/etc/dirsrv/slapd-{{slapd.instance_name}}/ca.crt"
+      register: _ca_crt
+      delegate_to: "{{ groups['ldapservers'][0] }}"
+
+    - name: Write ca.crt to every ldap clients.
+      ansible.builtin.copy:
+        content: "{{ _ca_crt.content | b64decode }}"
+        dest: "/etc/openldap/certs/ca.crt"
+        owner: root
+        group: root
+        mode: 0600
+
+    - name: Install OpenLDAP-Clients Package.
+      ansible.builtin.dnf:
+        name: openldap-clients
+        state: latest

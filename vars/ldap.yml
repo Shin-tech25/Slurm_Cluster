@@ -1,0 +1,23 @@
+general:
+  defaults: 999999999
+  full_machine_name: 19e0e7f1e422
+  start: true
+  strict_host_checking: false
+slapd:
+  instance_name: ldap1
+  ldapi: /run/slapd-ldap1.socket
+  port: 389
+  root_password: 'prometech4649'
+  secure_port: 636
+  self_sign_cert: true
+  self_sign_cert_valid_months: 24
+backend_userroot:
+  create_suffix_entry: true
+  require_index: false
+  sample_entries: no
+  suffix: dc=prometech,dc=co,dc=jp
+# /etc/openldap/ldap.conf
+LDAP_BASE: dc=prometech,dc=co,dc=jp
+LDAP_URI: ldaps://mnode.prometech.co.jp
+TLS_CACERT: /etc/openldap/certs/ca.crt
+BIND_DN: 'cn=Directory Manager'

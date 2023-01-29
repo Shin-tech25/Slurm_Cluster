@@ -1,0 +1,11 @@
+---
+- name: Converge
+  hosts: instance1
+  become: true
+  vars:
+    LDAP_URI: ldaps://localhost/
+  gather_facts: true
+  tasks:
+    - name: "Include shin_tech25.ldap_389ds"
+      ansible.builtin.include_role:
+        name: "shin_tech25.ldap_389ds"
