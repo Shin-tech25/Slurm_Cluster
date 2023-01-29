@@ -1,0 +1,28 @@
+---
+- name: 
+  hosts: xrdp
+  become: yes
+  tasks:
+    - name: Change default target to graphical.target
+      file:
+        src: /usr/lib/systemd/system/graphical.target
+        dest: /etc/systemd/system/default.target
+        state: link
+    - name: Install Xrdp, tigervnc-server
+      dnf:
+        name:
+          - xrdp
+          - tigervnc-server
+        state: latest
+    - name: Enable xrdp
+      systemd:
+        name: xrdp
+        state: restarted
+        enabled: true
+    - name: Open Port(3389)
+      firewalld:
+        zone: public
+        port: 3389/tcp
+        permanent: true
+        immediate: true
+        state: enabled
