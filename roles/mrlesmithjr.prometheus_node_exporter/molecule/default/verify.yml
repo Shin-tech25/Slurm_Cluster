@@ -3,7 +3,8 @@
 
 - name: Verify
   hosts: all
+  gather_facts: true
   tasks:
   - name: Example assertion
-    assert:
+    ansible.builtin.assert:
       that: true

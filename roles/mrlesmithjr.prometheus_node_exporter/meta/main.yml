@@ -1,5 +1,7 @@
 ---
 galaxy_info:
+  role_name: prometheus_node_exporter
+  namespace: mrlesmithjr
   author: Larry Smith Jr.
   description: Ansible role to install/configure Prometheus Node Exporter
   license: MIT

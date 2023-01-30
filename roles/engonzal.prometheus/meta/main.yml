@@ -1,6 +1,7 @@
 ---
 galaxy_info:
   role_name: prometheus
+  namespace: engonzal
   author: Noe Gonzalez
   description: Role to install prometheus server
   company: buildahomelab.com

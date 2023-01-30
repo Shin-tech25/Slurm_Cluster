@@ -5,9 +5,15 @@ prom_download_url: "https://github.com/prometheus/prometheus/releases/download/v
 prom_user: "prometheus"
 prom_group: "{{ prom_user }}"
 
-prom_groups: "{{ groups }}"
+prom_groups: 
+  prometheus:
+    - localhost
 
-prom_dir_base: "/app"
+prom_node_exporter_groups:
+  node:
+    - localhost
+
+prom_dir_base: "/opt"
 prom_dir_main: "{{ prom_dir_base }}/prometheus"
 prom_dir_config: "{{ prom_dir_main }}/config"
 prom_dir_data: "{{ prom_dir_main }}/data"

@@ -33,6 +33,22 @@
     mode: "0755"
     creates: "{{ prom_dir_bin }}/prometheus-{{ prom_version }}.linux-amd64"
 
+- name: Debug[prom_groups]
+  debug:
+    var: prom_groups
+
+- name: Debug[prom_groups[prometheus]]
+  debug:
+    var: prom_groups[prometheus]
+
+- name: Debug[prom_groups[0]]
+  debug:
+    var: prom_groups[0]
+
+- name: Debug[prom_groups.prometheus]
+  debug:
+    var: prom_groups.prometheus
+
 - name: Add Prometheus config
   template:
     src: prometheus.yml.j2

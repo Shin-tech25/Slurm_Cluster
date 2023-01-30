@@ -1,0 +1,11 @@
+---
+- name: Converge
+  hosts: instance1
+  become: true
+  vars:
+    - prom_version: "2.12.0"
+  gather_facts: true
+  tasks:
+    - name: "Include engonzal.prometheus"
+      ansible.builtin.include_role:
+        name: "engonzal.prometheus"

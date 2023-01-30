@@ -1,0 +1,9 @@
+---
+- name: Converge
+  hosts: instance1
+  become: true
+  gather_facts: true
+  tasks:
+    - name: "Include mrlesmithjr.prometheus_node_exporter"
+      ansible.builtin.include_role:
+        name: "mrlesmithjr.prometheus_node_exporter"
